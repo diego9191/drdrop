@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta property="og:title" content="Harmony | Dr. Drop">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harmony — Calma sin somnolencia | Dr. Drop</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+  :root{
+    --ink-deep:#14181C;
+    --ink-soft:#20262C;
+    --blue:#5B87A8;
+    --blue-deep:#436781;
+    --moss:#4A6A52;
+    --parchment:#EAEEF0;
+    --parchment-dim:#DCE3E6;
+    --text-on-dark:#EAEEF0;
+    --text-ink:#1B2226;
+    --max-w:1120px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'IBM Plex Sans', sans-serif; background:var(--parchment); color:var(--text-ink); line-height:1.5; -webkit-font-smoothing:antialiased; padding-bottom:74px;}
+  h1,h2,h3{font-family:'Fraunces', serif; font-weight:600; line-height:1.08; letter-spacing:-0.01em;}
+  .wrap{max-width:var(--max-w); margin:0 auto; padding:0 28px;}
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  button{font-family:inherit; cursor:pointer; border:none;}
+
+  .nav{background:var(--ink-deep); padding:18px 0;}
+  .nav .wrap{display:flex; align-items:center; justify-content:space-between;}
+  .nav img{height:34px; width:auto;}
+  .nav-cta{background:var(--blue); color:var(--parchment); padding:10px 20px; border-radius:2px; font-weight:600; font-size:14px;}
+
+  .sticky-bar{position:fixed; bottom:0; left:0; right:0; background:var(--ink-deep); border-top:1px solid rgba(91,135,168,0.35); padding:14px 20px; display:flex; align-items:center; justify-content:space-between; gap:16px; z-index:999; box-shadow:0 -8px 24px rgba(0,0,0,0.3);}
+  .sticky-bar .info{color:var(--parchment); font-size:14px;}
+  .sticky-bar .info strong{color:var(--blue); display:block; font-size:16px;}
+  .sticky-bar a{background:var(--blue); color:var(--parchment); padding:12px 22px; border-radius:2px; font-weight:700; font-size:15px; white-space:nowrap;}
+
+  .hero{background:var(--ink-deep); color:var(--text-on-dark); padding:64px 0 88px; position:relative; overflow:hidden;}
+  .hero .wrap{display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:center;}
+  .hero-eyebrow{color:var(--blue); font-weight:600; font-size:14px; letter-spacing:0.02em; margin-bottom:18px; display:flex; align-items:center; gap:10px;}
+  .hero-eyebrow::before{content:""; width:24px; height:1px; background:var(--blue); display:inline-block;}
+  .hero h1{font-size:clamp(34px, 4.4vw, 54px); color:var(--parchment);}
+  .hero h1 em{font-style:italic; color:var(--blue);}
+  .hero p.lede{margin-top:22px; font-size:18px; color:var(--parchment-dim); max-width:52ch; line-height:1.6;}
+  .hero-ctas{margin-top:34px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;}
+  .btn-primary{background:var(--blue); color:var(--parchment); padding:15px 30px; font-weight:700; font-size:16px; border-radius:2px; display:inline-block; transition:background 0.15s ease;}
+  .btn-primary:hover{background:#6F9CBB;}
+  .btn-ghost{color:var(--parchment); font-size:15px; border-bottom:1px solid rgba(234,238,240,0.4); padding-bottom:2px; background:none;}
+  .hero-image{position:relative;}
+  .hero-image img{width:100%; aspect-ratio:4/5; object-fit:cover; border-radius:3px; box-shadow:0 30px 60px -20px rgba(0,0,0,0.6);}
+  .hero-stat{position:absolute; bottom:-24px; left:-24px; background:var(--parchment); color:var(--ink-deep); padding:18px 22px; border-radius:3px; box-shadow:0 20px 40px -12px rgba(0,0,0,0.5); max-width:220px;}
+  .hero-stat .num{font-size:28px; font-weight:700; color:var(--blue-deep); line-height:1;}
+  .hero-stat .label{font-size:13px; color:var(--ink-soft); margin-top:6px; line-height:1.35;}
+
+  .quiz{background:var(--parchment-dim); padding:56px 0;}
+  .quiz .wrap{text-align:center;}
+  .quiz h2{font-size:24px; margin-bottom:8px;}
+  .quiz p.sub{color:var(--ink-soft); font-size:15px; margin-bottom:28px;}
+  .quiz-options{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+  .quiz-opt{background:var(--parchment); border:1.5px solid rgba(27,34,38,0.18); padding:14px 22px; border-radius:2px; font-size:15px; font-weight:600; transition:all 0.15s ease;}
+  .quiz-opt:hover{border-color:var(--blue);}
+  .quiz-opt.active{background:var(--ink-deep); color:var(--parchment); border-color:var(--ink-deep);}
+  .quiz-result{max-width:560px; margin:28px auto 0; background:var(--ink-deep); color:var(--parchment); padding:24px 28px; border-radius:3px; display:none; text-align:left; border-left:3px solid var(--blue);}
+  .quiz-result.show{display:block; animation:fadeIn 0.35s ease;}
+  .quiz-result strong{color:var(--blue); display:block; margin-bottom:6px; font-size:15px;}
+  .quiz-result p{font-size:14.5px; color:var(--parchment-dim); line-height:1.55;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  section{padding:80px 0;}
+  .section-label{font-size:13px; font-weight:600; color:var(--moss); margin-bottom:14px;}
+  h2.section-title{font-size:clamp(26px, 3vw, 38px); max-width:22ch;}
+
+  .founder{background:var(--ink-deep); color:var(--text-on-dark);}
+  .founder .wrap{display:grid; grid-template-columns:1fr 1.3fr; gap:56px; align-items:center;}
+  .founder-photo img{border-radius:3px; width:100%; aspect-ratio:4/5; object-fit:cover;}
+  .founder .section-label{color:var(--blue);}
+  .founder h2{color:var(--parchment); max-width:20ch;}
+  .founder p{color:var(--parchment-dim); font-size:16.5px; margin-top:18px; line-height:1.6; max-width:52ch;}
+  .founder-sig{margin-top:24px; font-family:'Fraunces', serif; font-style:italic; color:var(--blue); font-size:17px;}
+
+  .problem{background:var(--parchment);}
+  .problem .wrap{display:grid; grid-template-columns:0.9fr 1.1fr; gap:56px; align-items:start;}
+  .problem p{font-size:17px; color:var(--ink-soft); max-width:56ch; margin-top:18px;}
+  .quote-block{border-left:3px solid var(--blue); padding-left:24px; margin-top:28px;}
+  .quote-block p{font-family:'Fraunces', serif; font-style:italic; font-size:20px; color:var(--ink-deep); margin:0;}
+
+  .mechanism{background:var(--parchment-dim);}
+  .mechanism h2{max-width:26ch;}
+  .mech-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:2px; margin-top:40px; background:rgba(27,34,38,0.1);}
+  .mech-card{background:var(--parchment-dim); padding:32px 28px;}
+  .mech-card .step-num{font-family:'Fraunces', serif; font-size:15px; color:var(--moss); margin-bottom:16px;}
+  .mech-card h3{font-size:19px; margin-bottom:10px;}
+  .mech-card p{font-size:14.5px; color:var(--ink-soft); line-height:1.55;}
+
+  .comparison{background:var(--parchment);}
+  .comp-table{margin-top:44px; display:grid; grid-template-columns:1fr 1fr; border:1px solid rgba(27,34,38,0.15);}
+  .comp-col{padding:36px 32px;}
+  .comp-col.left{background:transparent; border-right:1px solid rgba(27,34,38,0.15);}
+  .comp-col.right{background:var(--ink-deep); color:var(--parchment);}
+  .comp-col h3{font-size:18px; margin-bottom:20px;}
+  .comp-col.right h3{color:var(--blue);}
+  .comp-row{padding:14px 0; border-top:1px solid rgba(27,34,38,0.12); font-size:15px;}
+  .comp-col.right .comp-row{border-top:1px solid rgba(234,238,240,0.15);}
+  .comp-row:first-of-type{border-top:none;}
+  .comp-cite{margin-top:28px; font-size:13.5px; color:var(--ink-soft); line-height:1.5;}
+
+  .extracts{background:var(--parchment-dim);}
+  .extracts-layout{display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:center;}
+  .extract-list{margin-top:32px; display:grid; grid-template-columns:1fr; gap:28px;}
+  .extract-item{border-top:2px solid var(--ink-deep); padding-top:16px;}
+  .extract-item h3{font-size:20px; margin-bottom:8px;}
+  .extract-item .role{font-size:12.5px; font-weight:600; color:var(--moss); letter-spacing:0.01em; margin-bottom:10px; display:block;}
+  .extract-item p{font-size:14.5px; color:var(--ink-soft); line-height:1.55;}
+  .extracts-image img{border-radius:3px; width:100%; aspect-ratio:4/5; object-fit:cover; box-shadow:0 24px 48px -16px rgba(0,0,0,0.25);}
+
+  .price{background:var(--parchment); text-align:center;}
+  .price .wrap{max-width:640px;}
+  .price h2{font-size:clamp(28px,4vw,42px);}
+  .price-amount{font-family:'Fraunces', serif; font-size:56px; color:var(--blue-deep); margin:22px 0 8px;}
+  .price p.sub{color:var(--ink-soft); font-size:16px; margin-bottom:12px;}
+  .price-note{font-size:13.5px; color:var(--moss); font-weight:600; margin-bottom:28px;}
+  .price-cta{display:inline-block;}
+  .alt-cta{margin-top:14px; font-size:14px;}
+  .alt-cta a{border-bottom:1px solid currentColor; opacity:.75;}
+  @media (max-width:480px){ .btn-primary{display:block; text-align:center;} .sticky-bar a{padding:12px 16px; font-size:14px;} .hero-ctas{flex-direction:column; align-items:stretch;} }
+
+  .faq{background:var(--parchment-dim);}
+  .faq-list{margin-top:44px; max-width:760px;}
+  .faq-item{border-top:1px solid rgba(27,34,38,0.15); padding:26px 0;}
+  .faq-item:last-child{border-bottom:1px solid rgba(27,34,38,0.15);}
+  .faq-item h3{font-weight:600; font-size:16.5px; margin-bottom:10px;}
+  .faq-item p{font-size:15px; color:var(--ink-soft); line-height:1.55;}
+
+  .closing{background:var(--ink-deep); color:var(--text-on-dark); text-align:center; padding:96px 0;}
+  .closing h2{color:var(--parchment); font-size:clamp(28px,4.4vw,44px); max-width:18ch; margin:0 auto;}
+  .closing p{color:var(--parchment-dim); margin:20px auto 34px; max-width:44ch; font-size:16.5px;}
+
+  footer{background:var(--ink-deep); color:var(--parchment-dim); text-align:center; padding:28px 0; font-size:13px; border-top:1px solid rgba(234,238,240,0.1);}
+
+  @media (max-width:860px){
+    .hero .wrap, .problem .wrap, .founder .wrap, .extracts-layout{grid-template-columns:1fr;}
+    .hero-image img{aspect-ratio:4/3; max-height:300px;}
+    .hero{padding:40px 0 56px;}
+    .extracts-image{order:-1;}
+    .hero-stat{position:static; margin-top:20px; max-width:none;}
+    .mech-grid{grid-template-columns:1fr;}
+    .comp-table{grid-template-columns:1fr;}
+    .comp-col.left{border-right:none; border-bottom:1px solid rgba(27,34,38,0.15);}
+    section{padding:56px 0;}
+  }
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="wrap">
+      <img src="https://static.wixstatic.com/media/38d6d0_1e66cbac81664562a965e59abc55a8fe~mv2.jpg" alt="Dr. Drop">
+      <a class="nav-cta" href="#comprar">Quiero el mío</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <div class="hero-eyebrow">Tintura sublingual · Formulada en Perú</div>
+        <h1>Calma real. <em>Sin somnolencia.</em></h1>
+        <p class="lede">Harmony combina manzanilla y hierba luisa en una tintura de absorción directa — tranquilidad que puedes usar de día o de noche, sin dejarte "apagado".</p>
+        <div class="hero-ctas">
+          <a class="btn-primary" href="#comprar">Quiero mi Harmony</a>
+          <a class="btn-ghost" href="#mecanismo">Ver cómo funciona ↓</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="https://static.wixstatic.com/media/38d6d0_7dcfea798fb444a5a8af2c62398b20ac~mv2.png" alt="Harmony con manzanilla y hierba luisa">
+        <div class="hero-stat">
+          <div class="num">+10,000</div>
+          <div class="label">personas confían en las fórmulas Dr. Drop desde 2019</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="quiz">
+    <div class="wrap">
+      <h2>¿Qué te trae por aquí hoy?</h2>
+      <p class="sub">Elige una opción y te mostramos exactamente por qué Harmony es para ti</p>
+      <div class="quiz-options">
+        <button class="quiz-opt" data-r="0">No puedo desconectar de noche</button>
+        <button class="quiz-opt" data-r="1">Ansiedad durante el día</button>
+        <button class="quiz-opt" data-r="2">Duermo, pero no descanso bien</button>
+      </div>
+      <div class="quiz-result" id="quizResult">
+        <strong id="qrTitle"></strong>
+        <p id="qrBody"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="founder">
+    <div class="wrap">
+      <div class="founder-photo">
+        <img src="https://static.wixstatic.com/media/38d6d0_7de266c5c29b42739009d6fafd23f713~mv2.jpg" alt="Diego Cárdenas, fundador de Dr. Drop, con Harmony">
+      </div>
+      <div>
+        <div class="section-label">Quién está detrás de la fórmula</div>
+        <h2>No es una farmacéutica genérica. Soy yo.</h2>
+        <p>Entre entrenar Muay Thai al máximo nivel y manejar Dr. Drop, aprendí que el descanso no es opcional — es parte del rendimiento. Formulé Harmony pensando en alguien que necesita calma real, no quedar noqueado. Cuando lo pruebes, vas a entender la diferencia.</p>
+        <div class="founder-sig">— Diego Cárdenas, fundador de Dr. Drop desde 2019</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="problem">
+    <div class="wrap">
+      <div>
+        <div class="section-label">El problema con los sedantes</div>
+        <h2 class="section-title">Calma no debería significar "apagado"</h2>
+      </div>
+      <div>
+        <p>Muchas alternativas para dormir o relajarte te dejan atontado, con sueño residual al día siguiente, o generando dependencia con el uso frecuente. No es calma real — es sedación.</p>
+        <div class="quote-block">
+          <p>La diferencia entre calma y "apagón" está en el mecanismo, no en la intensidad.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mechanism" id="mecanismo">
+    <div class="wrap">
+      <div class="section-label">No es un sedante más</div>
+      <h2 class="section-title">Cómo actúa Harmony, sin dejarte fuera de juego</h2>
+      <div class="mech-grid">
+        <div class="mech-card">
+          <div class="step-num">Uno</div>
+          <h3>Receptores GABA-A</h3>
+          <p>La apigenina de la manzanilla se une a los mismos receptores que los ansiolíticos — pero a dosis normales, sin causar somnolencia.</p>
+        </div>
+        <div class="mech-card">
+          <div class="step-num">Dos</div>
+          <h3>Calma sin sedación</h3>
+          <p>La hierba luisa reduce la ansiedad y calma el sistema nervioso, sin el efecto de "apagón" de los sedantes convencionales.</p>
+        </div>
+        <div class="mech-card">
+          <div class="step-num">Tres</div>
+          <h3>Absorción sublingual</h3>
+          <p>Entra directo a tu sangre en 15-20 minutos, para que puedas usarlo de día o antes de dormir según lo necesites.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="comparison">
+    <div class="wrap">
+      <div class="section-label">La comparación</div>
+      <h2 class="section-title">Harmony vs. sedantes convencionales</h2>
+      <div class="comp-table">
+        <div class="comp-col left">
+          <h3>Sedante convencional</h3>
+          <div class="comp-row">Efecto fuerte, casi inmediato</div>
+          <div class="comp-row">Somnolencia residual al día siguiente</div>
+          <div class="comp-row">Riesgo de dependencia con el uso frecuente</div>
+        </div>
+        <div class="comp-col right">
+          <h3>Harmony</h3>
+          <div class="comp-row">Calma real, sin "apagón"</div>
+          <div class="comp-row">Sin somnolencia residual</div>
+          <div class="comp-row">Uso diario sin generar dependencia</div>
+        </div>
+      </div>
+      <p class="comp-cite">Por eso puedes tomar Harmony en la mañana si sientes ansiedad, no solo antes de dormir.</p>
+    </div>
+  </section>
+
+  <section class="extracts">
+    <div class="wrap">
+      <div class="extracts-layout">
+        <div>
+          <div class="section-label">La fórmula</div>
+          <h2 class="section-title">Dos plantas, una proporción calculada</h2>
+          <div class="extract-list">
+            <div class="extract-item">
+              <span class="role">Extracto 01</span>
+              <h3>Manzanilla</h3>
+              <p>Apigenina: favorece un sueño reparador y relaja el sistema nervioso, sin somnolencia diurna.</p>
+            </div>
+            <div class="extract-item">
+              <span class="role">Extracto 02</span>
+              <h3>Hierba luisa</h3>
+              <p>Calma los nervios, reduce la ansiedad y mejora la digestión.</p>
+            </div>
+          </div>
+        </div>
+        <div class="extracts-image">
+          <img src="https://static.wixstatic.com/media/38d6d0_7dcfea798fb444a5a8af2c62398b20ac~mv2.png" alt="Manzanilla y hierba luisa">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="price" id="comprar">
+    <div class="wrap">
+      <div class="section-label">Tu inversión</div>
+      <h2>Menos de lo que crees</h2>
+      <div class="price-amount">S/80</div>
+      <p class="sub">Packs: 2 Drops S/150 · 3 Drops S/200 · 4 Drops S/240<br>Envío S/10 en Lima · S/15 a provincias · Pagas por Yape, Plin o tarjeta</p>
+      <p class="price-note">Te respondemos por WhatsApp en minutos y despachamos el mismo día en Lima</p>
+      <a class="btn-primary price-cta" href="https://wa.me/66967077840?text=Hola%2C%20quiero%20pedir%20Harmony" target="_blank" rel="noopener">Pedir Harmony por WhatsApp</a>
+      <p class="alt-cta"><a href="https://www.drdropperu.com/product-page/harmony" target="_blank" rel="noopener">o comprar en la tienda online →</a></p>
+    </div>
+  </section>
+
+  <section class="faq">
+    <div class="wrap">
+      <div class="section-label">Antes de que te preguntes</div>
+      <h2 class="section-title">Las 3 dudas que todos tienen</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <h3>¿Me va a dar sueño si lo tomo de día?</h3>
+          <p>No. Harmony calma sin causar somnolencia — puedes usarlo en la mañana si sientes ansiedad, no solo antes de dormir.</p>
+        </div>
+        <div class="faq-item">
+          <h3>¿Es seguro tomarlo todos los días?</h3>
+          <p>Sí. Usa ingredientes de uso tradicional prolongado, sin los efectos secundarios de los sedantes convencionales.</p>
+        </div>
+        <div class="faq-item">
+          <h3>¿Puedo combinarlo con otros Drops?</h3>
+          <p>Sí. CurcuLife, Bull Shot y Be Happy están pensados para complementarse en distintos momentos de tu día.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="wrap">
+      <h2>Cuando te llegue tu Harmony, vas a entender la diferencia</h2>
+      <p>Calma real, sin somnolencia — de forma natural, sin el "apagón" de los sedantes convencionales.</p>
+      <a class="btn-primary" href="https://wa.me/66967077840?text=Hola%2C%20quiero%20pedir%20Harmony" target="_blank" rel="noopener">Pedir Harmony por WhatsApp</a>
+    </div>
+  </section>
+
+  <footer>
+    Dr. Drop · Innovando desde el 2019 · Envíos a todo el Perú
+  </footer>
+
+  <div class="sticky-bar">
+    <div class="info">Harmony <strong>S/80</strong></div>
+    <a href="https://wa.me/66967077840?text=Hola%2C%20quiero%20pedir%20Harmony" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+  </div>
+
+  <script>
+    const results = [
+      {t:"Para desconectar de noche", b:"La manzanilla favorece un sueño reparador relajando tu sistema nervioso — sin dejarte con sueño residual al día siguiente."},
+      {t:"Para la ansiedad del día a día", b:"La hierba luisa calma los nervios sin sedarte. Puedes usar Harmony en cualquier momento del día que necesites tranquilidad."},
+      {t:"Para descansar de verdad", b:"No se trata solo de dormir horas, sino de que ese sueño sea reparador. Harmony ayuda a que tu cuerpo realmente descanse."}
+    ];
+    document.querySelectorAll('.quiz-opt').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        document.querySelectorAll('.quiz-opt').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const r = results[btn.dataset.r];
+        document.getElementById('qrTitle').textContent = r.t;
+        document.getElementById('qrBody').textContent = r.b;
+        document.getElementById('quizResult').classList.add('show');
+      });
+    });
+  </script>
+
+</body>
+</html>
